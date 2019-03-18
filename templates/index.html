@@ -1,20 +1,12 @@
-{% extends 'base.html' %}
-
-
-{% block title %}
-
-    Index page
-
-{% endblock %}
-
-{% block content_title %}
-
-    Index page
-
-{% endblock %}
+{% extends "base.html" %}
 
 {% block content %}
-
-    Some content
-
+ <a href="/add_post">Добавить запись</a>
+    {% for item in posts %}
+    <div class="alert alert-dark" role="alert">
+        <h2>{{item[1]}}</h2>
+        <p>{{item[2]}}</p>
+        <a href="/post/{{item[0]}}">Подробнее</a>
+    </div>
+{% endfor %}
 {% endblock %}

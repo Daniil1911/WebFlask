@@ -1,7 +1,6 @@
 from flask import Flask
 from config import Configuration
 import sqlite3
-from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
