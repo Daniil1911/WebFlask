@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
- <a href="/add_post">Добавить запись</a>
     {% for item in posts %}
     <div class="alert alert-dark" role="alert">
-        <h2>{{item[1]}}</h2>
+        <img src="http://127.0.0.1:8080{{url_for('static',filename=''+item[4])}}" alt="text" width="500px">
+        <p>{{item[1]}}</p>
         <p>{{item[2]}}</p>
-        <a href="/post/{{item[0]}}">Подробнее</a>
+        <a href="/follow/{{item[3]}}">Follow</a> / <a href="/unfollow/{{item[3]}}">UnFollow</a>
     </div>
 {% endfor %}
 {% endblock %}

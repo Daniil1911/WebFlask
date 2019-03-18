@@ -16,6 +16,11 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">My_site</a>
+
+ <a href="/feed">Feed</a>
+ <a href="/profile">Profile</a>
+ <a href="/index">All photo</a>
+ <a href="/add_post">Добавить запись</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -27,7 +32,7 @@
 
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link" href="/logout">Logout</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
@@ -53,18 +58,18 @@
 </nav>
 
 <div class="container">
-     <h1>
+
             {% block content_title %}
 
             {% endblock %}
-        </h1>
+
     <div class="row">
 
-            <h2>
+
                 {% block content %}
 
                 {% endblock %}
-            </h2>
+
 
     </div>
 </div>

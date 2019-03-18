@@ -100,3 +100,45 @@ class PostModel:
         cursor.execute(''' UPDATE posts SET views ='''+str(int(data[5])+1) + ''' WHERE id = ''' + str(posts_id))
         cursor.close()
         self.connection.commit()
+
+class Feed:
+    def __init__(self, connection):
+        self.connection = connection
+
+    def init_table(self):
+        cursor = self.connection.cursor()
+        cursor.execute('''CREATE TABLE IF NOT EXISTS feed 
+                                  (id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                                   user_id INTEGER,
+                                   follow_id INTEGER
+                                   )''')
+        cursor.close()
+        self.connection.commit()
+
+    def insert(self, user_id,follow_id):
+        cursor = self.connection.cursor()
+
+        cursor.execute('''INSERT INTO feed 
+                            (user_id,follow_id) 
+                            VALUES (?,?)''', (str(user_id),str(follow_id)))
+        cursor.close()
+        self.connection.commit()
+
+    def get(self, posts_id):
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT * FROM posts WHERE id = "+ (str(posts_id)))
+        row = cursor.fetchone()
+        return row
+
+    def get_all(self, user_id=None):
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT * FROM posts WHERE user_id = (select follow_id from feed where user_id = " + (str(user_id)) + ") ORDER BY id DESC")
+        rows = cursor.fetchall()
+        return rows
+
+    def delete(self, user_id,follow_id):# удаление записи из таблицы по условию ид=...
+        cursor = self.connection.cursor()
+        cursor.execute('''DELETE FROM feed WHERE user_id = ''' + str(user_id)+'''follow_id = ''' + str(follow_id))
+        cursor.close()
+        self.connection.commit()
+

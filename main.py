@@ -8,7 +8,7 @@ from config import Configuration
 import sqlite3
 
 
-from models import UserModel,PostModel
+from models import UserModel,PostModel,Feed
 
 app = Flask(__name__)
 app.config.from_object(Configuration)
@@ -33,8 +33,10 @@ app = Flask(__name__, static_folder='static')
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 user_model = UserModel(db.get_connection())
 post_model = PostModel(db.get_connection())
+feed = Feed(db.get_connection())
 user_model.init_table() #таблицы нужно проиницилизировать, т.е. создать при необходимости
 post_model.init_table()
+feed.init_table()
 user_status, user_id = False, False #проверка, что юзер залогинился, его ид
 
 
@@ -101,10 +103,24 @@ def registration():
 
 #страница главная
 @app.route('/index')
-@app.route('/news')
 def news():
     if user_status:
         post_list = post_model.get_all()
+        return render_template('index.html', posts=post_list)
+    else:
+        return redirect('/login')
+
+@app.route('/feed')
+def feed_page():
+    if user_status:
+        post_list = feed.get_all(user_id)
+        return render_template('index.html', posts=post_list)
+    else:
+        return redirect('/login')
+@app.route('/profile')
+def profile():
+    if user_status:
+        post_list = post_model.get_all(user_id)
         return render_template('index.html', posts=post_list)
     else:
         return redirect('/login')
@@ -142,6 +158,22 @@ def delete_post(post_id):
     if not user_status:
         return redirect('/login')
     post_model.delete(post_id)
+    return redirect("/index")
+
+
+#follow
+@app.route('/follow/<int:follow_id>', methods=['GET'])
+def follow(follow_id):
+    if not user_status:
+        return redirect('/login')
+    feed.insert(user_id,follow_id)
+    return redirect("/index")
+#unfollow
+@app.route('/unfollow/<int:follow_id>', methods=['GET'])
+def unfollow(follow_id):
+    if not user_status:
+        return redirect('/login')
+    feed.delete(user_id,follow_id)
     return redirect("/index")
 
 
