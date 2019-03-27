@@ -120,8 +120,7 @@ def feed_page():
 @app.route('/profile')
 def profile():
     if user_status:
-        post_list = post_model.get_all(user_id)
-        return render_template('index.html', posts=post_list)
+        return render_template('profile.html')
     else:
         return redirect('/login')
 
@@ -135,6 +134,7 @@ def view_post(post_id):
     else:
         return redirect('/login')
 
+
 #страница добавления новости
 @app.route('/add_post', methods=['GET', 'POST'])
 def add_post():
@@ -145,7 +145,7 @@ def add_post():
     if form.validate_on_submit():
         title = form.title.data
         content = form.content.data
-        image=  (form.image.data, form.image.data.read())
+        image=(form.image.data, form.image.data.read())
         views = 0
         post_model.insert(title, content, str(user_id),image, views)
         return redirect("/index")

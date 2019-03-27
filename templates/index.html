@@ -1,12 +1,55 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+
+
     {% for item in posts %}
-    <div class="alert alert-dark" role="alert">
-        <img src="http://127.0.0.1:8080{{url_for('static',filename=''+item[4])}}" alt="text" width="500px">
-        <p>{{item[1]}}</p>
+    <div class="ab" role="alert">
+    <div class="abot" role="alert">
+        <style>
+                .ab {
+                width: 531px;
+                background: #ccc;
+                border: solid 3px #878787;
+                float: left;
+                </style>
+        <img src="http://127.0.0.1:8080{{url_for('static',filename=''+item[4])}}" alt="text" width="531px" style=" border: 6px  ridge #BCBCBC;">
+        </div>
+        <div class="about-cont2" role="alert">
+            <p>{{item[1]}}</p>
         <p>{{item[2]}}</p>
-        <a href="/follow/{{item[3]}}">Follow</a> / <a href="/unfollow/{{item[3]}}">UnFollow</a>
+            <style>
+                .about-cont2 {
+                width: 531px;
+                background: #ccc;
+                padding: 5px;
+                padding-right: 1px;
+                border: solid 1px #878787;
+                float: left;
+                </style>
+
+
+        <button type="button" class="btn btn-secondary" href="/follow/{{item[3]}}">Подписаться на обновления</button>
+        <button type="button" class="btn btn-secondary" href="/unfollow/{{item[3]}}">Отписаться</button>
+        <button type="button" class="btn btn-secondary">Удалить запись</button>
     </div>
-{% endfor %}
+    </div>
+    {% endfor %}
+<div class="profile-i" role="alert">
+<div class="profile-img" role="alert">
+        <img width="172px" height="172px" src='static/img/003.jpg' alt="Картинка с рамкой" style=" border: 6px  ridge #BCBCBC;" />
+    <div/>
+<div class="profile-name" role="alert">
+    <h6>Пользователь№1</h6>
+    <button type="button" class="btn btn-secondary">Перейти в профиль</button>
+    <style>
+                .profile-i {
+                width: 177px;
+                background: #ccc;
+                border: solid 3px #878787;
+                float: left;
+                </style>
+<div/>
+<div/>
 {% endblock %}

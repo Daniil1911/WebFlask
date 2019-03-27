@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
+
+
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
@@ -12,67 +15,87 @@
         {% endblock %} | Flask app
 
     </title>
+
+
 </head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">My_site</a>
+</div>
+<style type="text/css">
+  .saitbar {
+     margin: 80 auto;
+     padding: 0;
+     width: 240px;
+     }
+  .menu-3 {
+     margin: 0;
+     padding: 0;
+     background-color: #211919;
+     height: auto;
+     list-style-type: none;
+     }
+  .menu-3 li {
+     margin: 0 0 2px;
+     padding: 0;
+     background-color: #776060;
+     border-left: 26px solid #555252;
+     transition: all 0.7s ease 0s;
+     display: block;
+     }
+  .menu-3 a {
+     padding: 6px 0 8px 10px;
+     color: #f2f2f2;
+     text-decoration: none;
+     border-left: 6px solid #211919;
+     transition: all 0.7s ease 0s;
+     display: block;
+     }
+  .menu-3 li:hover {
+     background-color: #BBBBBB;
+     }
+  .menu-3 li:hover a {
+     color: #282828;
+     padding: 6px 0 8px 22px;
+     border-left: 6px solid #211919;
+     }
+</style>
 
- <a href="/feed">Feed</a>
- <a href="/profile">Profile</a>
- <a href="/index">All photo</a>
- <a href="/add_post">Добавить запись</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<div class="saitbar">
+<ul class="menu-3">
+    <li><a href="/profile">Профиль</a></li>
+    <li><a href="/feed">Подписки</a></li>
+    <li><a href="/feed">Подписчики</a></li>
+    <li><a href="/index">Публикации</a></li>
+    <li><a href="/add_post">Добавить пост</a></li>
+    <li><a href="/login">Выход</a></li>
+</ul>
+</div>
+<body style="background:url('static/img/002.jpg') no-repeat; background-size: cover;">
+<main role="main" class="container">
+    <style type="text/css">
+    .container {
+    width: 780px;
+    margin: 0 auto;
+    background: #D8D8D8;
+    padding: 10px;
+    text-align: left;
+   }
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
 
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/logout">Logout</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                    Dropdown
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-            </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-    </div>
-</nav>
-
-<div class="container">
+  </style>
 
             {% block content_title %}
 
             {% endblock %}
 
-    <div class="row">
+    <ul class="row">
 
 
-                {% block content %}
+        {% block content %}
 
-                {% endblock %}
+        {% endblock %}
 
 
-    </div>
-</div>
+    </ul>
+</main>
 
 </body>
 </html>

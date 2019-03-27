@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content_title %}
+<div class="profile-title">
+
+<h1>Мой профиль</h1>
+</div>
+{% endblock %}
+
+{% block content %}
+
+
+
+<div class="profile-header-img">
+
+
+    <img width="200px" height="200px" src='static/img/003.jpg' alt="Картинка с рамкой" style=" border: 6px  ridge #BCBCBC;"/>
+
+    <!-- badge -->
+    <div class="rank-label-container">
+
+
+
+        <b>Пользователь№1</b>
+
+        <div class="profile-button">
+        <button type="button" class="btn btn-secondary">Обновить фотографию</button>
+            <a href="/rd_profile" class="btn btn-secondary">Редактировать</a>
+        </div>
+    </div>
+</div>
+
+<div class="about-title">
+        <h2>О себе:</h2>
+    <div class="about">
+    </div>
+
+</div>
+{% endblock %}

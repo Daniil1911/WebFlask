@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content_title %}
+<div class="profile-title">
+
+<h1>Редактирование профиля</h1>
+</div>
+{% endblock %}
+
+{% block content %}
+
+
+
+ <form action="" method="post" enctype=multipart/form-data>
+        {{ form.hidden_tag() }}
+
+
+
+        <p>
+
+            {{ form.content.label }}<br>
+            {{ form.content }}<br>
+            {% for error in form.content.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+
+
+        </p>
+
+
+        <p>{{ form.submit() }}</p>
+    </form>
+ </div>
+{% endblock %}
