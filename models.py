@@ -10,16 +10,17 @@ class UserModel:
                              login VARCHAR(50),
                              name VARCHAR(50),
                              fname VARCHAR(50),
-                             password_hash VARCHAR(128)
+                             password_hash VARCHAR(128),
+                             information VARCHAR(1280)
                              )''')
         cursor.close()
         self.connection.commit()
 
-    def insert(self, login, password_hash, fname, name):#вставка записи
+    def insert(self, login, password_hash, fname, name, information=""):#вставка записи
         cursor = self.connection.cursor()
         cursor.execute('''INSERT INTO users 
-                          (login, name,fname, password_hash) 
-                          VALUES (?,?,?,?)''', (login, password_hash, fname, name))
+                          (login, name,fname, password_hash,information) 
+                          VALUES (?,?,?,?,?)''', (login, password_hash, fname, name,information))
         cursor.close()
         self.connection.commit()
 
@@ -40,6 +41,60 @@ class UserModel:
         cursor.execute("SELECT * FROM users WHERE login = ? AND password_hash = ?", (login, password_hash))
         row = cursor.fetchone()
         return (True, row[0]) if row else (False, None)
+
+    def update(self, user_id, name, fname, information):
+        cursor = self.connection.cursor()
+        cursor.execute("UPDATE users SET name ='"+str(name) + "', fname ='"+str(fname) + "', information ='"+str(information) + "' WHERE id = " + str(user_id))
+        cursor.close()
+        self.connection.commit()
+
+    def get_info(self, user_id):
+            cursor = self.connection.cursor()
+            cursor.execute("SELECT a.name, a.fname, a.information FROM users a WHERE a.id = " + str(user_id))
+            row = cursor.fetchone()
+            return row
+
+
+class UserImage:
+    def __init__(self, connection):
+        self.connection = connection
+
+    def init_table(self): #создание таблицы
+        cursor = self.connection.cursor()
+        cursor.execute('''CREATE TABLE IF NOT EXISTS users_im 
+                            (id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                             user_id INTEGER,
+                             image VARCHAR(200)
+                             
+                             )''')
+        cursor.close()
+        self.connection.commit()
+
+    def insert(self, user_id, image):#вставка записи
+        cursor = self.connection.cursor()
+        fname, ffile = image  # сохранение картинки на сервер
+        print(fname, ffile)
+        f = open("static/img/" +str(user_id)+ fname.filename, "wb")
+        f.write(ffile)
+        f.close()
+        cursor.execute('''INSERT INTO users_im 
+                                   (user_id,image) 
+                                   VALUES (?,?)''',
+                       ( str(user_id), "img/" +str(user_id)+ fname.filename))
+        cursor.close()
+        self.connection.commit()
+
+    def get(self, user_id):# получение записи - возвращет список со значеняими из таблицы
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT * FROM users_im WHERE user_id = " + str(user_id))
+        row = cursor.fetchone()
+        image =""
+        if row is not None:
+            image = row[2]
+        return image
+
+
+
 
 
 
@@ -124,11 +179,11 @@ class Feed:
         cursor.close()
         self.connection.commit()
 
-    def get(self, posts_id):
+    def get_users(self, user_id):
         cursor = self.connection.cursor()
-        cursor.execute("SELECT * FROM posts WHERE id = "+ (str(posts_id)))
-        row = cursor.fetchone()
-        return row
+        cursor.execute("SELECT * FROM users WHERE id in (select follow_id from feed where user_id =  "+ (str(user_id)+")"))
+        rows = cursor.fetchall()
+        return rows
 
     def get_all(self, user_id=None):
         cursor = self.connection.cursor()

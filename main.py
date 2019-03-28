@@ -8,7 +8,7 @@ from config import Configuration
 import sqlite3
 
 
-from models import UserModel,PostModel,Feed
+from models import UserModel,PostModel,Feed, UserImage
 
 app = Flask(__name__)
 app.config.from_object(Configuration)
@@ -32,10 +32,12 @@ db = DB()
 app = Flask(__name__, static_folder='static')
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 user_model = UserModel(db.get_connection())
+user_image = UserImage(db.get_connection())
 post_model = PostModel(db.get_connection())
 feed = Feed(db.get_connection())
 user_model.init_table() #таблицы нужно проиницилизировать, т.е. создать при необходимости
 post_model.init_table()
+user_image.init_table()
 feed.init_table()
 user_status, user_id = False, False #проверка, что юзер залогинился, его ид
 
@@ -56,7 +58,15 @@ class RegForm(FlaskForm):
     password2 = PasswordField('Повторить пароль', validators=[DataRequired()])
     fname = StringField('Фамилия', validators=[DataRequired()])
     name = StringField('Имя', validators=[DataRequired()])
+    information = StringField('information', validators=[DataRequired()])
     submit = SubmitField('Войти')
+
+class EditProfileForm(FlaskForm):
+    fname = StringField('Фамилия', validators=[DataRequired()])
+    name = StringField('Имя', validators=[DataRequired()])
+    image = FileField("Image")
+    information = StringField('Information')
+    submit = SubmitField('Update')
 #форма добавление сообщения
 class AddPost(FlaskForm):
     title = StringField('Название', validators=[DataRequired()])
@@ -95,8 +105,9 @@ def registration():
     login = form.login.data
     fname = form.fname.data
     name = form.name.data
+    information = form.information.data
     password_hash = form.password.data
-    user_model.insert(login, password_hash, fname, name)
+    user_model.insert(login, password_hash, fname, name, information)
     if form.validate_on_submit():
         return redirect('/login')
     return render_template('registration.html', title='Регистрация', form=form)
@@ -106,7 +117,12 @@ def registration():
 def news():
     if user_status:
         post_list = post_model.get_all()
-        return render_template('index.html', posts=post_list)
+        user_list = [i[3] for i in post_list]
+        name_list = [user_model.get_info(i)[:2] for i in user_list]
+        image_list = [user_image.get(i) for i in user_list]
+        data = [[post_list[i],name_list[i][0]+" "+ name_list[i][1], user_list[i], image_list[i]] for i in range(len(post_list))]
+        print(list(data))
+        return render_template('index.html', posts=data)
     else:
         return redirect('/login')
 
@@ -114,13 +130,50 @@ def news():
 def feed_page():
     if user_status:
         post_list = feed.get_all(user_id)
-        return render_template('index.html', posts=post_list)
+        user_list = [i[3] for i in post_list]
+        name_list = [user_model.get_info(i)[:2] for i in user_list]
+        image_list = [user_image.get(i) for i in user_list]
+        data = [[post_list[i], name_list[i][0] + " " + name_list[i][1], user_list[i], image_list[i]] for i in
+                range(len(post_list))]
+        print(list(data))
+        return render_template('index.html', posts=data)
     else:
         return redirect('/login')
+
+@app.route('/feeds')
+def feeds_page():
+    if user_status:
+        users= feed.get_users(user_id)
+        image_list = [user_image.get(i[0]) for i in users]
+        print(list(zip(users,image_list)))
+        data = [[users[i], image_list[i]] for i in   range(len(users))]
+        return render_template('users.html', users=data)
+    else:
+        return redirect('/login')
+
 @app.route('/profile')
 def profile():
     if user_status:
-        return render_template('profile.html')
+        name,fname,information = user_model.get_info(user_id)
+        image = user_image.get(user_id)
+
+        return render_template('profile.html', name=name,fname=fname,information=information, image=image)
+    else:
+        return redirect('/login')
+@app.route('/rd_profile', methods=['GET', 'POST'])
+def edit_profile():
+    if user_status:
+        form = EditProfileForm()
+        if form.validate_on_submit():
+            name = form.name.data
+            fname = form.fname.data
+            information = form.information.data
+            image = (form.image.data, form.image.data.read())
+            user_image.insert(user_id,image)
+            user_model.update(user_id, name,fname, information)
+            return redirect("/profile")
+        return render_template('add_profile.html', form=form)
+
     else:
         return redirect('/login')
 

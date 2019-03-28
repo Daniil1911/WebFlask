@@ -12,19 +12,18 @@
 
 
 <div class="profile-header-img">
-
-
-    <img width="200px" height="200px" src='static/img/003.jpg' alt="Картинка с рамкой" style=" border: 6px  ridge #BCBCBC;"/>
+ 
+    <img width="200px" height="200px" src="http://127.0.0.1:8080{{url_for('static',filename=''+image)}}"  alt="Картинка с рамкой" style=" border: 6px  ridge #BCBCBC;"/>
 
     <!-- badge -->
     <div class="rank-label-container">
 
 
 
-        <b>Пользователь№1</b>
+        <b>{{name}} {{fname}}</b>
 
         <div class="profile-button">
-        <button type="button" class="btn btn-secondary">Обновить фотографию</button>
+        <a href="/rd_profile" class="btn btn-secondary">Обновить фотографию</button>
             <a href="/rd_profile" class="btn btn-secondary">Редактировать</a>
         </div>
     </div>
@@ -32,6 +31,7 @@
 
 <div class="about-title">
         <h2>О себе:</h2>
+		{{information}}
     <div class="about">
     </div>
 

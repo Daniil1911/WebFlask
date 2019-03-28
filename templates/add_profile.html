@@ -18,9 +18,9 @@
 
         <p>
 
-            {{ form.content.label }}<br>
-            {{ form.content }}<br>
-            {% for error in form.content.errors %}
+            {{ form.name.label }}<br>
+            {{ form.name }}<br>
+            {% for error in form.name.errors %}
                 <div class="alert alert-danger" role="alert">
                     {{ error }}
                 </div>
@@ -29,6 +29,40 @@
 
         </p>
 
+        <p>
+
+            {{ form.fname.label }}<br>
+            {{ form.fname }}<br>
+            {% for error in form.fname.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+
+
+        </p>
+
+        <p>
+
+            {{ form.information.label }}<br>
+            {{ form.information }}<br>
+            {% for error in form.information.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+
+
+        </p>
+ <p>
+            {{ form.image.label }}<br>
+            {{ form.image }}<br>
+            {% for error in form.image.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
 
         <p>{{ form.submit() }}</p>
     </form>

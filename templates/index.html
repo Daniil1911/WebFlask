@@ -3,9 +3,25 @@
 {% block content %}
 
 
-
     {% for item in posts %}
+	
     <div class="ab" role="alert">
+		<div class="profile-i" role="alert">
+<div class="profile-img" role="alert">
+        <img width="172px" height="172px"src="http://127.0.0.1:8080{{url_for('static',filename=''+item[3])}}" alt="Картинка с рамкой" style=" border: 6px  ridge #BCBCBC;" />
+    <div/>
+<div class="profile-name" role="alert">
+    <h6>{{item[1]}}</h6>
+    <a class="btn btn-secondary"  href="/profile/{{item[2]}}">Перейти в профиль</a>
+    <style>
+                .profile-i {
+                width: 177px;
+                background: #ccc;
+                border: solid 3px #878787;
+                float: left;
+                </style>
+<div/>
+<div/>
     <div class="abot" role="alert">
         <style>
                 .ab {
@@ -14,11 +30,11 @@
                 border: solid 3px #878787;
                 float: left;
                 </style>
-        <img src="http://127.0.0.1:8080{{url_for('static',filename=''+item[4])}}" alt="text" width="531px" style=" border: 6px  ridge #BCBCBC;">
+        <img src="http://127.0.0.1:8080{{url_for('static',filename=''+item[0][4])}}" alt="text" width="531px" style=" border: 6px  ridge #BCBCBC;">
         </div>
         <div class="about-cont2" role="alert">
-            <p>{{item[1]}}</p>
-        <p>{{item[2]}}</p>
+            <p>{{item[0][1]}}</p>
+        <p>{{item[0][2]}}</p>
             <style>
                 .about-cont2 {
                 width: 531px;
@@ -30,26 +46,13 @@
                 </style>
 
 
-        <button type="button" class="btn btn-secondary" href="/follow/{{item[3]}}">Подписаться на обновления</button>
-        <button type="button" class="btn btn-secondary" href="/unfollow/{{item[3]}}">Отписаться</button>
-        <button type="button" class="btn btn-secondary">Удалить запись</button>
+        <a class="btn btn-secondary" href="/follow/{{item[0][3]}}">Подписаться на обновления</a>
+        <a class="btn btn-secondary" href="/unfollow/{{item[0][3]}}">Отписаться</a>
+        <a class="btn btn-secondary" href="/delete/{{item[0][0]}}">Удалить запись</a>
     </div>
+
     </div>
+	
     {% endfor %}
-<div class="profile-i" role="alert">
-<div class="profile-img" role="alert">
-        <img width="172px" height="172px" src='static/img/003.jpg' alt="Картинка с рамкой" style=" border: 6px  ridge #BCBCBC;" />
-    <div/>
-<div class="profile-name" role="alert">
-    <h6>Пользователь№1</h6>
-    <button type="button" class="btn btn-secondary">Перейти в профиль</button>
-    <style>
-                .profile-i {
-                width: 177px;
-                background: #ccc;
-                border: solid 3px #878787;
-                float: left;
-                </style>
-<div/>
-<div/>
+
 {% endblock %}
