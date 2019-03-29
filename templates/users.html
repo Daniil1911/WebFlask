@@ -3,26 +3,33 @@
 {% block content_title %}
 <div class="profile-title">
 
-<h1>Подписки</h1>
+<h1>Подписчики:</h1>
 </div>
 {% endblock %}
 {% block content %}
   {% for item in users %}
-
-<img width="172px" height="172px"src="http://127.0.0.1:8080{{url_for('static',filename=''+item[1])}}" alt="Картинка с рамкой" style=" border: 6px  ridge #BCBCBC;" />
-    <div/>
 <div class="profile-name" role="alert">
-    <h6>{{item[0][2],item[0][3],}}</h6>
-    <a class="btn btn-secondary"  href="/profile/{{item[0][0]}}">Перейти в профиль</a>
-    <style>
-                .profile-i {
-                width: 177px;
-                background: #ccc;
-                border: solid 3px #878787;
-                float: left;
-                </style>
+<figure>
+    <img width="172px" height="172px"src="http://127.0.0.1:8080{{url_for('static',filename=''+item[1])}}" alt="Картинка с рамкой" style=" border: 6px  ridge #BCBCBC;" />
+
+
+
+</figure>
+
 <div/>
-<div/>
+
+<style>
+.profile-name {
+  text-align: top;
+}
+figure {
+  display: inline-block;
+  vertical-align:top;
+}
+figure img {
+    vertical-align:top;
+}
+</style>
 
     {% endfor %}
 

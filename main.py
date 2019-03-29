@@ -156,8 +156,8 @@ def profile():
     if user_status:
         name,fname,information = user_model.get_info(user_id)
         image = user_image.get(user_id)
-
-        return render_template('profile.html', name=name,fname=fname,information=information, image=image)
+        user = user_image.get(user_id)
+        return render_template('profile.html', user= user, name=name,fname=fname,information=information, image=image)
     else:
         return redirect('/login')
 @app.route('/rd_profile', methods=['GET', 'POST'])
